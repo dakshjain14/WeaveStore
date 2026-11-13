@@ -6,8 +6,6 @@ WeaveStore turns a file into a weaving draft (`.wif`), the plain text format wea
 
 **Try it:** https://dakshjain14.github.io/WeaveStore/
 
-Made for the Weird Storage card in Hack Club Crescent.
-
 ## Quick start
 
 ### In the browser
