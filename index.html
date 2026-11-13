@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WeaveStore</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>WeaveStore</h1>
+  <a href="https://github.com/dakshjain14/WeaveStore">GitHub</a>
+</header>
+
+<main>
+  <p class="intro">Store any file as a weaving draft (.wif). The draft opens in normal weaving software and could be woven on a real loom. Load it back in here to get your file out.</p>
+
+  <section>
+    <h2>1. File to draft</h2>
+    <div class="controls">
+      <input type="file" id="file-in">
+      <label for="shafts">Shafts</label>
+      <select id="shafts">
+        <option>8</option>
+        <option selected>16</option>
+        <option>24</option>
+      </select>
+    </div>
+    <pre id="weave-info"></pre>
+    <button id="save-wif" hidden>Download .wif</button>
+    <canvas id="cloth"></canvas>
+  </section>
+
+  <section>
+    <h2>2. Draft to file</h2>
+    <input type="file" id="wif-in" accept=".wif">
+    <pre id="unweave-info"></pre>
+    <button id="save-file" hidden>Download file</button>
+  </section>
+
+  <section class="notes">
+    <h2>How it works</h2>
+    <ul>
+      <li>The cloth is split into 4x4 blocks of over/under.</li>
+      <li>Only blocks with no run longer than 2 are used (2030 of them), so no thread floats over more than 4 others.</li>
+      <li>3 blocks hold 4 bytes, about 1.33 bytes per pick on 16 shafts.</li>
+      <li>The file is stored in the liftplan itself. Nothing is hidden in the notes.</li>
+    </ul>
+  </section>
+</main>
+
+<footer>Made for Hack Club Crescent</footer>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>

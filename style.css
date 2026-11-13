@@ -1,0 +1,116 @@
+/* WeaveStore */
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  color: #1d1d1f;
+  background: #fff;
+  font: 16px/1.5 -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* top bar */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 16px 20px;
+  border-bottom: 1px solid #ddd;
+}
+
+h1 {
+  font-size: 20px;
+  margin: 0;
+}
+
+main {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 20px 32px;
+}
+
+.intro { color: #444; }
+
+section {
+  padding: 16px 0;
+  border-top: 1px solid #eee;
+}
+
+h2 {
+  font-size: 16px;
+  margin: 0 0 10px;
+}
+
+/* file input + shafts on one line */
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+}
+
+select,
+button {
+  font: inherit;
+  font-size: 14px;
+}
+
+button {
+  margin-top: 4px;
+  padding: 4px 12px;
+  background: #f4f4f4;
+  border: 1px solid #999;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+button:hover { background: #e8e8e8; }
+
+/* stats + hashes */
+pre {
+  margin: 12px 0 8px;
+  padding: 8px 10px;
+  background: #f6f6f6;
+  font: 13px/1.5 ui-monospace, Consolas, monospace;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+pre:empty { display: none; }
+
+.error {
+  color: #b00020;
+  background: #fdf0f0;
+}
+
+canvas {
+  display: block;
+  max-width: 100%;
+  margin-top: 12px;
+  border: 1px solid #ccc;
+  image-rendering: pixelated;
+}
+
+/* hidden until something's drawn */
+#cloth:not([width]) { display: none; }
+
+.notes ul {
+  margin: 0;
+  padding-left: 20px;
+  color: #444;
+}
+
+.notes li { margin-bottom: 4px; }
+
+a { color: #2b4c8c; }
+
+footer {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 12px 20px 24px;
+  border-top: 1px solid #ddd;
+  font-size: 13px;
+  color: #777;
+}
