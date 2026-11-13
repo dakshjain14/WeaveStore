@@ -4,3 +4,5 @@ recovered/
 # test drafts in the root, the ones in examples/ still get commited
 /*.wif
 .DS_Store
+# test files
+scratch/
