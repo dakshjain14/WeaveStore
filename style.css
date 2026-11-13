@@ -2,115 +2,213 @@
 
 * { box-sizing: border-box; }
 
+:root {
+  --ink: #1f2328;
+  --muted: #5b626b;
+  --line: #e4e2dd;
+  --indigo: #28365e;
+  --paper: #faf8f4;
+}
+
 body {
   margin: 0;
-  color: #1d1d1f;
+  color: var(--ink);
   background: #fff;
-  font: 16px/1.5 -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font: 16px/1.6 -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+a { color: var(--indigo); }
+
+.wrap {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
 /* top bar */
-header {
+.top { border-bottom: 1px solid var(--line); }
+
+.top .wrap {
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
-  max-width: 760px;
-  margin: 0 auto;
-  padding: 16px 20px;
-  border-bottom: 1px solid #ddd;
+  align-items: center;
+  height: 56px;
 }
+
+.name {
+  font-weight: 600;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+nav a {
+  margin-left: 20px;
+  font-size: 14px;
+  color: var(--muted);
+  text-decoration: none;
+}
+
+nav a:hover { color: var(--indigo); }
 
 h1 {
-  font-size: 20px;
-  margin: 0;
+  font-size: 28px;
+  line-height: 1.25;
+  margin: 40px 0 12px;
 }
 
-main {
-  max-width: 760px;
-  margin: 0 auto;
-  padding: 0 20px 32px;
+.intro {
+  font-size: 17px;
+  color: var(--muted);
+  margin: 0 0 32px;
 }
-
-.intro { color: #444; }
 
 section {
-  padding: 16px 0;
-  border-top: 1px solid #eee;
+  padding: 28px 0;
+  border-top: 1px solid var(--line);
 }
 
 h2 {
-  font-size: 16px;
-  margin: 0 0 10px;
+  font-size: 19px;
+  margin: 0 0 6px;
 }
 
-/* file input + shafts on one line */
+h2 .num {
+  color: var(--indigo);
+  margin-right: 10px;
+}
+
+h3 {
+  font-size: 16px;
+  margin: 24px 0 8px;
+}
+
+.hint {
+  font-size: 14px;
+  color: var(--muted);
+  margin: 0 0 14px;
+}
+
+/* file picker + shafts */
 .controls {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 8px 12px;
+  gap: 10px 24px;
+  margin-bottom: 8px;
 }
 
-select,
+label { font-size: 14px; }
+
+select {
+  margin-left: 6px;
+  padding: 3px 6px;
+  font: inherit;
+}
+
+input[type="file"] { font-size: 14px; }
+
+input[type="file"]::file-selector-button,
 button {
   font: inherit;
   font-size: 14px;
-}
-
-button {
-  margin-top: 4px;
-  padding: 4px 12px;
-  background: #f4f4f4;
-  border: 1px solid #999;
-  border-radius: 2px;
+  padding: 6px 14px;
+  border: 1px solid var(--indigo);
+  border-radius: 3px;
   cursor: pointer;
 }
 
-button:hover { background: #e8e8e8; }
+input[type="file"]::file-selector-button {
+  margin-right: 10px;
+  background: #fff;
+  color: var(--indigo);
+}
+
+button {
+  background: var(--indigo);
+  color: #fff;
+}
+
+button:hover { background: #1b2545; }
+
+details {
+  font-size: 14px;
+  margin: 0 0 16px;
+}
+
+summary {
+  color: var(--indigo);
+  cursor: pointer;
+}
+
+details p {
+  color: var(--muted);
+  margin: 8px 0 0;
+}
 
 /* stats + hashes */
 pre {
-  margin: 12px 0 8px;
-  padding: 8px 10px;
-  background: #f6f6f6;
-  font: 13px/1.5 ui-monospace, Consolas, monospace;
+  margin: 16px 0 12px;
+  padding: 10px 12px;
+  background: var(--paper);
+  border-left: 3px solid var(--indigo);
+  font: 13px/1.55 ui-monospace, Consolas, monospace;
   white-space: pre-wrap;
   word-break: break-all;
 }
 
 pre:empty { display: none; }
 
-.error {
-  color: #b00020;
-  background: #fdf0f0;
+pre.error {
+  color: #a3261c;
+  background: #fcf3f2;
+  border-left-color: #a3261c;
 }
 
 canvas {
   display: block;
   max-width: 100%;
-  margin-top: 12px;
-  border: 1px solid #ccc;
+  margin-top: 18px;
   image-rendering: pixelated;
 }
 
-/* hidden until something's drawn */
+/* hidden till something's drawn */
 #cloth:not([width]) { display: none; }
 
-.notes ul {
-  margin: 0;
-  padding-left: 20px;
-  color: #444;
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  margin: 8px 0 16px;
 }
 
-.notes li { margin-bottom: 4px; }
+th, td {
+  text-align: left;
+  padding: 6px 12px 6px 0;
+  border-bottom: 1px solid var(--line);
+}
 
-a { color: #2b4c8c; }
+th { font-weight: 600; }
+
+ol {
+  padding-left: 20px;
+  margin: 0;
+}
+
+li { margin-bottom: 8px; }
+
+dl { font-size: 15px; margin: 0; }
+dt { font-weight: 600; }
+dd { margin: 0 0 8px; color: var(--muted); }
 
 footer {
-  max-width: 760px;
-  margin: 0 auto;
-  padding: 12px 20px 24px;
-  border-top: 1px solid #ddd;
+  padding-top: 20px;
+  padding-bottom: 40px;
+  border-top: 1px solid var(--line);
   font-size: 13px;
-  color: #777;
+  color: var(--muted);
+}
+
+@media (max-width: 520px) {
+  h1 { font-size: 24px; }
+  nav a { margin-left: 14px; }
 }

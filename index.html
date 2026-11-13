@@ -4,52 +4,121 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>WeaveStore</title>
+<meta name="description" content="Store any file as a weaving draft, and get it back out.">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header>
-  <h1>WeaveStore</h1>
-  <a href="https://github.com/dakshjain14/WeaveStore">GitHub</a>
+
+<header class="top">
+  <div class="wrap">
+    <a class="name" href="./">WeaveStore</a>
+    <nav>
+      <a href="#limits">Limits</a>
+      <a href="#how">How it works</a>
+      <a href="https://github.com/dakshjain14/WeaveStore">GitHub</a>
+    </nav>
+  </div>
 </header>
 
-<main>
-  <p class="intro">Store any file as a weaving draft (.wif). The draft opens in normal weaving software and could be woven on a real loom. Load it back in here to get your file out.</p>
+<main class="wrap">
+  <h1>Store a file in a piece of cloth</h1>
+  <p class="intro">WeaveStore turns a file into a weaving draft (.wif), the format weavers use to share patterns. The draft opens in weaving software and could be woven on a real loom. Load it back in here and you get the exact same file out, checked against its SHA-256.</p>
 
   <section>
-    <h2>1. File to draft</h2>
+    <h2><span class="num">1</span>File to draft</h2>
+    <p class="hint">Any type of file works. Size is the catch, see <a href="#limits">limits</a>.</p>
+
     <div class="controls">
       <input type="file" id="file-in">
-      <label for="shafts">Shafts</label>
-      <select id="shafts">
-        <option>8</option>
-        <option selected>16</option>
-        <option>24</option>
-      </select>
+      <label>Shafts
+        <select id="shafts">
+          <option value="4">4</option>
+          <option value="8">8</option>
+          <option value="16" selected>16</option>
+          <option value="24">24</option>
+        </select>
+      </label>
     </div>
+    <p class="hint" id="shaft-hint"></p>
+
+    <details>
+      <summary>What's a shaft?</summary>
+      <p>On a loom, every lengthways thread (the warp) runs through one shaft. Lifting a shaft lifts all of its threads, and the crossways thread (the weft) passes under them. So the shaft count is how many groups of threads you can move on their own for each row. More shafts means more data per row, but a bigger loom. Most hobby looms have 4 or 8. 16 and 24 usually mean a dobby loom, often computer controlled.</p>
+      <p>Pick what your loom has, or leave it on 16 if you're just trying it out. The draft remembers its shaft count, so you don't set it when reading back.</p>
+    </details>
+
     <pre id="weave-info"></pre>
     <button id="save-wif" hidden>Download .wif</button>
     <canvas id="cloth"></canvas>
   </section>
 
   <section>
-    <h2>2. Draft to file</h2>
+    <h2><span class="num">2</span>Draft to file</h2>
+    <p class="hint">Drop in a .wif made here. Drafts re-saved by weaving software should work too, as long as the threading and the liftplan or treadling are still there.</p>
     <input type="file" id="wif-in" accept=".wif">
     <pre id="unweave-info"></pre>
     <button id="save-file" hidden>Download file</button>
   </section>
 
-  <section class="notes">
+  <section id="limits">
+    <h2>Limits</h2>
+    <p>The file type doesn't matter: photos, zips, PDFs and empty files all come back byte for byte. What limits you is size, because each pick (one pass of the weft) only holds a byte or two.</p>
+
+    <table>
+      <thead>
+        <tr><th>Shafts</th><th>Bytes per pick</th><th>Biggest file in the browser</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>4</td><td>0.33</td><td>about 330 KB</td></tr>
+        <tr><td>8</td><td>0.67</td><td>about 650 KB</td></tr>
+        <tr><td>16</td><td>1.33</td><td>about 1.3 MB</td></tr>
+        <tr><td>24</td><td>2</td><td>about 2 MB</td></tr>
+      </tbody>
+    </table>
+
+    <p>Text and other files that compress well can go past these numbers, because they're squashed first. Photos, zips and videos are already compressed, so they won't shrink.</p>
+
+    <p>How much cloth that is, at 16 shafts and roughly 10 picks per cm:</p>
+    <table>
+      <thead>
+        <tr><th>File</th><th>Picks</th><th>Cloth</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Short note, 100 bytes</td><td>about 100</td><td>about 10 cm</td></tr>
+        <tr><td>Small photo, 10 KB</td><td>about 7,500</td><td>about 7.5 m</td></tr>
+        <tr><td>1 MB file</td><td>about 750,000</td><td>about 750 m</td></tr>
+      </tbody>
+    </table>
+
+    <p>So anything past a few hundred bytes is something you'd keep as a draft, not weave by hand. The format itself goes up to 4 GB. The browser runs out of memory long before that, and weaving software can get slow on very long drafts.</p>
+  </section>
+
+  <section id="how">
     <h2>How it works</h2>
-    <ul>
-      <li>The cloth is split into 4x4 blocks of over/under.</li>
-      <li>Only blocks with no run longer than 2 are used (2030 of them), so no thread floats over more than 4 others.</li>
-      <li>3 blocks hold 4 bytes, about 1.33 bytes per pick on 16 shafts.</li>
-      <li>The file is stored in the liftplan itself. Nothing is hidden in the notes.</li>
-    </ul>
+    <ol>
+      <li>The file gets a small header (name, length, part of its SHA-256), and is compressed if that makes it smaller.</li>
+      <li>The cloth is split into 4&times;4 blocks of over and under. Of the 65,536 possible blocks, only the 2,030 with no row or column running more than 2 the same are used.</li>
+      <li>That rule means no thread ever floats over more than 4 others, so the cloth holds together. Every draft is checked for it.</li>
+      <li>3 blocks hold 4 bytes. Blocks go side by side across the shafts, then row by row down the cloth.</li>
+      <li>The pattern lives in the liftplan, the part of the draft that says which shafts go up on each pick. Nothing is hidden in notes or comments.</li>
+      <li>Reading it back rebuilds the cloth, turns the blocks back into bytes, and checks the hash.</li>
+    </ol>
+
+    <h3>Words</h3>
+    <dl>
+      <dt>Warp</dt><dd>The threads running lengthways, set up on the loom first.</dd>
+      <dt>Weft</dt><dd>The thread going across, over and under the warp.</dd>
+      <dt>Pick</dt><dd>One pass of the weft. One row of the draft.</dd>
+      <dt>Shaft</dt><dd>A frame that lifts a group of warp threads together.</dd>
+      <dt>Float</dt><dd>A thread skipping over several others. Long floats snag, so they're kept to 4.</dd>
+      <dt>Liftplan</dt><dd>Which shafts go up on each pick. This is where the file is stored.</dd>
+    </dl>
   </section>
 </main>
 
-<footer>Made for Hack Club Crescent</footer>
+<footer class="wrap">
+  Made for Hack Club Crescent &middot; MIT licence &middot; <a href="https://github.com/YOUR-NAME/WeaveStore">source</a>
+</footer>
 
 <script type="module" src="app.js"></script>
 </body>

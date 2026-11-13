@@ -6,3 +6,5 @@ recovered/
 .DS_Store
 # test files
 scratch/
+# tests, local only
+test/
